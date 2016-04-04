@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\background.png" />
     <Content Include="Content\Backing track wav.wav" />
     <Content Include="Content\Black Knight.png" />
     <Content Include="Content\cannon fire.wav" />

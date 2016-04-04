@@ -67,7 +67,8 @@ namespace Easter2016
 
             // Players Tower is bottom left
             Vector2 PlayerTowerPos = new Vector2(0,
-            GraphicsDevice.Viewport.Height - LoadedGameContent.Textures["End Tower"].Height
+            GraphicsDevice.Viewport.Height 
+                  - LoadedGameContent.Textures["End Tower"].Height
             
             );
 
@@ -80,6 +81,8 @@ namespace Easter2016
             0
             );
 
+            SimpleSprite background =  new SimpleSprite(Game, "background", Vector2.Zero);
+            background.Active = true;
 
             player = new Player(Game, "Player", playerPosition);
             playerTower = new Tower(Game, "End Tower", PlayerTowerPos );
@@ -90,6 +93,7 @@ namespace Easter2016
                 Stack<Vector2> path = new Stack<Vector2>();
                 path.Push(PlayerTowerPos);
                 path.Push(new Vector2(Utilities.Utility.NextRandom(200), Utilities.Utility.NextRandom(400)));
+
                 SimpleSprite s = new SimpleSprite(Game, "Black Knight", startTowerPos, path);
                 _blackKnights.Add(s);
                 
@@ -101,7 +105,8 @@ namespace Easter2016
         public  void monitorKnights()
         {
             // if they are not all stopped then there is at least one active
-            var _activeKnights = _blackKnights.Where(k => !k.Stopped() && k.Active);
+            var _activeKnights = _blackKnights
+                .Where(k => !k.Stopped() && k.Active);
             if (_activeKnights.Count() < 1)
             {
                 // then the inactive one has been deleted so activate the next one and add
@@ -151,8 +156,10 @@ namespace Easter2016
             LoadedGameContent.Textures.Add("cannonball", Game.Content.Load<Texture2D>("cannonball"));
             LoadedGameContent.Textures.Add("Start Tower", Game.Content.Load<Texture2D>("Start Tower"));
             LoadedGameContent.Textures.Add("End Tower", Game.Content.Load<Texture2D>("End Tower"));
+            LoadedGameContent.Textures.Add("background",Game.Content.Load<Texture2D>("background"));
             LoadedGameContent.Textures.Add("Player", Game.Content.Load<Texture2D>("Player"));
             LoadedGameContent.Fonts.Add("SimpleSpriteFont", Game.Content.Load<SpriteFont>("SimpleSpriteFont"));
+
             _audioPlayer = LoadedGameContent.Sounds["backing"].CreateInstance();
             _audioPlayer.Volume = 0.2f;
             _audioPlayer.IsLooped = true;
