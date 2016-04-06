@@ -28,28 +28,28 @@ namespace Easter2016
         {
             LoadAssets();
             setupObjects();
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    TimedSprite next = new TimedSprite(Game, "cannonball", new Vector2(Utilities.Utility.NextRandom(200), Utilities.Utility.NextRandom(200)));
-            //    addtoTimes(next);
-            //}
-            
+            for (int i = 0; i < 5; i++)
+            {
+                TimedSprite next = new TimedSprite(Game, "cannonball", new Vector2(Utilities.Utility.NextRandom(200), Utilities.Utility.NextRandom(200)));
+                addtoTimes(next);
+            }
+
             base.LoadContent();
         }
 
-        private void addtoTimes(TimedSprite next)
+        private void addtoTimes(TimedSprite timedSprite)
         {
             if (timed.Count == 0)
-                timed.AddFirst(next);
+                timed.AddFirst(timedSprite);
             else
             {
                 LinkedListNode<TimedSprite> current = timed.First;
-                while (current != timed.Last && next.Activate >= current.Value.Activate)
+                while (current != timed.Last && timedSprite.Activate >= current.Value.Activate)
                     current = current.Next;
-                if (current == timed.Last && next.Activate >= current.Value.Activate)
-                    timed.AddAfter(timed.First, next);
+                if (current == timed.Last && timedSprite.Activate >= current.Value.Activate)
+                    timed.AddAfter(timed.First, timedSprite);
                 else
-                    timed.AddBefore(current, next);
+                    timed.AddBefore(current, timedSprite);
             }
 
         }
@@ -202,7 +202,7 @@ namespace Easter2016
         public override void Update(GameTime gameTime)
         {
             TimePassed = gameTime.TotalGameTime;
-            //checkTimedObjects();
+            checkTimedObjects();
             MonitorCannonBalls();
             monitorKnights();
             base.Update(gameTime);
@@ -210,7 +210,8 @@ namespace Easter2016
 
         private void checkTimedObjects()
         {
-            var deadTimed = Game.Components.OfType<TimedSprite>().Where(t => !t.Alive).ToList();
+            var deadTimed = Game.Components.OfType<TimedSprite>()
+                            .Where(t => !t.Alive).ToList();
             foreach (TimedSprite t in deadTimed)
             {
                 timed.Remove(t);
